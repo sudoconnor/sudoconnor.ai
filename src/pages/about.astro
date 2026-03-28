@@ -2,42 +2,61 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
 const skills = {
-  'Infrastructure': ['Kubernetes', 'Terraform', 'Docker', 'Ansible', 'Helm'],
-  'Cloud': ['AWS', 'Azure', 'GCP'],
-  'Languages': ['Python', 'Go', 'TypeScript', 'Bash', 'HCL'],
-  'Security': ['DevSecOps', 'SAST/DAST', 'Policy as Code', 'RMF/STIG', 'Secret Management'],
-  'CI/CD': ['GitHub Actions', 'GitLab CI', 'ArgoCD', 'Jenkins'],
-  'AI & Agents': ['Multi-Agent Systems', 'Agentic Workflows', 'LLM Integration', 'Prompt Engineering'],
-  'Observability': ['Prometheus', 'Grafana', 'Datadog', 'ELK Stack'],
+  'Container & Orchestration': ['Kubernetes (CKA)', 'Docker', 'Helm', 'Kustomize', 'containerd', 'Podman', 'Harbor'],
+  'Cloud & Infrastructure': ['AWS', 'GCP', 'Azure', 'OpenStack', 'Proxmox', 'Bare Metal'],
+  'IaC & Config': ['Terraform', 'Ansible', 'Salt', 'Vault'],
+  'CI/CD': ['GitHub Actions', 'GitLab CI', 'Jenkins', 'ArgoCD', 'Flux'],
+  'Security': ['DevSecOps', 'Keycloak', 'RBAC', 'SSL/TLS', 'Air-Gapped Delivery'],
+  'Languages': ['Python', 'Go', 'Bash', 'HCL', 'TypeScript'],
+  'Observability': ['Prometheus', 'Grafana', 'Datadog', 'ELK Stack', 'Loki'],
+  'AI & Agents': ['Multi-Agent Systems', 'Agentic Workflows', 'LLM Integration'],
 };
 ---
 
-<BaseLayout title="About | SudoConnor" description="Platform engineer and DevSecOps practitioner who builds what matters.">
+<BaseLayout title="About | SudoConnor" description="Staff DevSecOps Engineer with 12+ years building infrastructure for defense and enterprise systems.">
   <section class="mx-auto max-w-3xl px-6 py-12">
     <!-- Intro -->
     <div class="mb-12">
       <h1 class="mb-2 font-mono text-sm text-sc-blue">$ whoami</h1>
-      <h2 class="mb-6 text-3xl font-bold sm:text-4xl">Connor</h2>
+      <h2 class="mb-6 text-3xl font-bold sm:text-4xl">Connor Meehan</h2>
       <div class="space-y-4 text-lg leading-relaxed text-sc-text-muted">
         <p>
-          I'm a Platform Engineer and DevSecOps practitioner who builds secure,
-          mission-critical infrastructure — the kind of work where "move fast and
-          break things" gets replaced with "move fast and break nothing."
+          Staff DevSecOps Engineer with 12+ years building infrastructure and leading
+          teams for defense and enterprise systems. I ship AI-powered platforms across
+          air-gapped, edge, and cloud environments where failure isn't an option —
+          the kind of work where security isn't bolted on at the end, it's the architecture.
         </p>
         <p>
-          I believe the best engineering isn't measured by lines of code shipped, but
-          by impact delivered. I'm drawn to the idea that agentic AI and multi-agent
-          systems aren't here to replace engineers — they're here to unleash them.
-          Human intent drives the destination. Agents accelerate the journey. The backlog
-          shouldn't be a bottleneck when bandwidth is no longer the constraint.
+          Currently at <strong class="text-sc-text">Raft</strong>, leading DevSecOps
+          for AI data platforms serving SOCOM across multiple classification levels. Before
+          that, I deployed container platforms at IBM/BoxBoat, reduced server provisioning
+          from days to minutes at Hivelocity, and configured HA clusters spanning 500+ nodes
+          across 5 global regions.
         </p>
         <p>
-          I work at the intersection of platform engineering, security, and AI —
-          building hardened pipelines, automating compliance, and experimenting with
-          agentic workflows that turn what used to take weeks into hours. Security
-          isn't a phase you bolt on at the end — it's architecture.
+          I believe the best engineering isn't measured by lines of code shipped, but by
+          impact delivered. I'm drawn to agentic AI and multi-agent systems — not as
+          replacements for engineers, but as force multipliers. Human intent sets the
+          direction. Agents accelerate the journey. The backlog shouldn't be a bottleneck
+          when bandwidth is no longer the constraint.
         </p>
       </div>
+    </div>
+
+    <!-- Credentials -->
+    <div class="mb-12 flex flex-wrap gap-3">
+      <span class="rounded-full border border-sc-accent-green/30 bg-sc-accent-green/10 px-3 py-1 text-xs font-medium text-sc-accent-green">
+        TS/SCI Cleared
+      </span>
+      <span class="rounded-full border border-sc-blue/30 bg-sc-blue/10 px-3 py-1 text-xs font-medium text-sc-blue">
+        CKA Certified
+      </span>
+      <span class="rounded-full border border-sc-blue/30 bg-sc-blue/10 px-3 py-1 text-xs font-medium text-sc-blue">
+        Security+ Certified
+      </span>
+      <span class="rounded-full border border-sc-text-muted/30 bg-sc-text-muted/10 px-3 py-1 text-xs font-medium text-sc-text-muted">
+        Tampa, FL
+      </span>
     </div>
 
     <!-- Skills -->
