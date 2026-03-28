@@ -1,0 +1,71 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --color-sc-bg: #0D1117;
+  --color-sc-bg-card: #161B22;
+  --color-sc-bg-surface: #1C2128;
+  --color-sc-blue: #0080FF;
+  --color-sc-blue-light: #3399FF;
+  --color-sc-blue-dark: #0066CC;
+  --color-sc-blue-glow: #0080FF40;
+  --color-sc-text: #E6EDF3;
+  --color-sc-text-muted: #8B949E;
+  --color-sc-accent-green: #3FB950;
+  --color-sc-accent-yellow: #D29922;
+
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: var(--color-sc-bg);
+    color: var(--color-sc-text);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-blink {
+  animation: blink 1s step-end infinite;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out forwards;
+}
+
+.glow-blue {
+  text-shadow: 0 0 10px var(--color-sc-blue-glow), 0 0 20px var(--color-sc-blue-glow);
+}
+
+/* Blog prose overrides */
+.prose {
+  --tw-prose-body: var(--color-sc-text);
+  --tw-prose-headings: var(--color-sc-text);
+  --tw-prose-links: var(--color-sc-blue-light);
+  --tw-prose-bold: var(--color-sc-text);
+  --tw-prose-code: var(--color-sc-blue-light);
+  --tw-prose-pre-bg: var(--color-sc-bg-card);
+  --tw-prose-pre-code: var(--color-sc-text);
+  --tw-prose-quotes: var(--color-sc-text-muted);
+  --tw-prose-counters: var(--color-sc-text-muted);
+  --tw-prose-bullets: var(--color-sc-text-muted);
+  --tw-prose-hr: var(--color-sc-bg-surface);
+  --tw-prose-th-borders: var(--color-sc-bg-surface);
+  --tw-prose-td-borders: var(--color-sc-bg-surface);
+}

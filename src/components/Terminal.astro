@@ -1,0 +1,256 @@
+---
+---
+
+<div
+  id="terminal-panel"
+  class="fixed inset-x-0 bottom-0 z-50 hidden transition-transform duration-300"
+>
+  <div class="mx-auto max-w-3xl px-4 pb-4">
+    <div class="overflow-hidden rounded-lg border border-sc-blue/20 bg-sc-bg-card shadow-2xl shadow-sc-blue-glow">
+      <!-- Title bar -->
+      <div class="flex items-center justify-between border-b border-sc-blue/10 px-4 py-2">
+        <div class="flex items-center gap-2">
+          <span class="h-3 w-3 rounded-full bg-red-500/80"></span>
+          <span class="h-3 w-3 rounded-full bg-sc-accent-yellow/80"></span>
+          <span class="h-3 w-3 rounded-full bg-sc-accent-green/80"></span>
+        </div>
+        <span class="font-mono text-xs text-sc-text-muted">connor@sudoconnor ~ </span>
+        <button id="terminal-close" class="text-sc-text-muted transition-colors hover:text-sc-text">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="2" y1="2" x2="12" y2="12" /><line x1="12" y1="2" x2="2" y2="12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Output area -->
+      <div id="terminal-output" class="h-64 overflow-y-auto p-4 font-mono text-sm leading-relaxed">
+        <div class="text-sc-text-muted">Welcome to SudoConnor terminal. Type <span class="text-sc-accent-green">help</span> for available commands.</div>
+      </div>
+
+      <!-- Input line -->
+      <div class="flex items-center border-t border-sc-blue/10 px-4 py-2 font-mono text-sm">
+        <span class="text-sc-accent-green">connor@sudoconnor</span><span class="text-sc-text-muted">:</span><span class="text-sc-blue">~</span><span class="text-sc-text-muted">$&nbsp;</span>
+        <input
+          id="terminal-input"
+          type="text"
+          class="flex-1 border-none bg-transparent text-sc-text outline-none"
+          autocomplete="off"
+          spellcheck="false"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const panel = document.getElementById('terminal-panel')!;
+  const output = document.getElementById('terminal-output')!;
+  const input = document.getElementById('terminal-input') as HTMLInputElement;
+  const closeBtn = document.getElementById('terminal-close')!;
+  const toggleBtn = document.getElementById('terminal-toggle');
+
+  const history: string[] = [];
+  let historyIndex = -1;
+
+  function toggleTerminal() {
+    panel.classList.toggle('hidden');
+    if (!panel.classList.contains('hidden')) {
+      input.focus();
+    }
+  }
+
+  function appendLine(text: string, className = '') {
+    const div = document.createElement('div');
+    if (className) div.className = className;
+    div.innerHTML = text;
+    output.appendChild(div);
+    output.scrollTop = output.scrollHeight;
+  }
+
+  function appendPrompt(cmd: string) {
+    appendLine(
+      `<span class="text-sc-accent-green">connor@sudoconnor</span>:<span class="text-sc-blue">~</span>$ ${escapeHtml(cmd)}`
+    );
+  }
+
+  function escapeHtml(s: string): string {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  const commands: Record<string, (args: string[]) => string> = {
+    help: () =>
+      `<span class="text-sc-blue">Available commands:</span>
+  <span class="text-sc-accent-green">whoami</span>      - Who is Connor?
+  <span class="text-sc-accent-green">about</span>       - Quick bio
+  <span class="text-sc-accent-green">skills</span>      - Technical skills
+  <span class="text-sc-accent-green">projects</span>    - Notable projects
+  <span class="text-sc-accent-green">contact</span>     - Get in touch
+  <span class="text-sc-accent-green">blog</span>        - Latest posts
+  <span class="text-sc-accent-green">neofetch</span>    - System info
+  <span class="text-sc-accent-green">ls</span>          - List pages
+  <span class="text-sc-accent-green">echo</span>        - Echo text
+  <span class="text-sc-accent-green">history</span>     - Command history
+  <span class="text-sc-accent-green">clear</span>       - Clear terminal
+  <span class="text-sc-accent-green">exit</span>        - Close terminal`,
+
+    whoami: () =>
+      'Connor — DevOps Engineer / Platform Builder / DevSecOps / AI Tinkerer',
+
+    about: () =>
+      `I build secure, scalable infrastructure and experiment with AI.
+Platform engineering by day, breaking things in homelabs by night.
+<span class="text-sc-text-muted">→ Visit <a href="/about" class="text-sc-blue underline">/about</a> for the full story.</span>`,
+
+    skills: () =>
+      `<span class="text-sc-blue">Infrastructure:</span> Kubernetes, Terraform, Docker, Ansible, Helm
+<span class="text-sc-blue">Cloud:</span>          AWS, Azure, GCP
+<span class="text-sc-blue">Languages:</span>      Python, Go, TypeScript, Bash, HCL
+<span class="text-sc-blue">Security:</span>       DevSecOps, SAST/DAST, Policy as Code
+<span class="text-sc-blue">CI/CD:</span>          GitHub Actions, GitLab CI, ArgoCD
+<span class="text-sc-blue">AI:</span>             LLM Integration, Agentic Workflows`,
+
+    projects: () =>
+      `<span class="text-sc-text-muted">Notable projects:</span>
+  <span class="text-sc-accent-green">sudoconnor.ai</span>  - This site (you're looking at it)
+  <span class="text-sc-text-muted">More coming soon...</span>`,
+
+    contact: () =>
+      `<span class="text-sc-blue">GitHub:</span>    <a href="https://github.com/sudoconnor" class="text-sc-blue-light underline" target="_blank">github.com/sudoconnor</a>
+<span class="text-sc-blue">LinkedIn:</span>  <a href="https://linkedin.com/in/sudoconnor" class="text-sc-blue-light underline" target="_blank">linkedin.com/in/sudoconnor</a>`,
+
+    blog: () =>
+      `<span class="text-sc-text-muted">Latest posts:</span>
+  <a href="/blog/hello-world" class="text-sc-blue-light underline">Hello, World — Welcome to SudoConnor</a>
+<span class="text-sc-text-muted">→ Visit <a href="/blog" class="text-sc-blue underline">/blog</a> for all posts.</span>`,
+
+    neofetch: () =>
+      `<span class="text-sc-blue">  ____  ____</span>          <span class="text-sc-text">connor</span>@<span class="text-sc-blue">sudoconnor.ai</span>
+<span class="text-sc-blue"> / ___||  _ \\</span>         ─────────────────────
+<span class="text-sc-blue"> \\___ \\| |_) |</span>        <span class="text-sc-blue">OS:</span> Cloud-Native Linux
+<span class="text-sc-blue">  ___) |  __/</span>         <span class="text-sc-blue">Shell:</span> zsh + oh-my-zsh
+<span class="text-sc-blue"> |____/|_|</span>            <span class="text-sc-blue">Uptime:</span> since the first docker run
+                      <span class="text-sc-blue">Packages:</span> mass (terraform, helm, kubectl)
+                      <span class="text-sc-blue">IDE:</span> VS Code (obviously)
+                      <span class="text-sc-blue">Languages:</span> Python, Go, TS, HCL
+                      <span class="text-sc-blue">Infra:</span> AWS / Azure / GCP
+                      <span class="text-sc-blue">Status:</span> <span class="text-sc-accent-green">Building cool stuff</span>`,
+
+    ls: () =>
+      `<span class="text-sc-blue">drwxr-xr-x</span>  home/
+<span class="text-sc-blue">drwxr-xr-x</span>  about/
+<span class="text-sc-blue">drwxr-xr-x</span>  blog/`,
+
+    echo: (args) => args.length > 0 ? escapeHtml(args.join(' ')) : '',
+
+    history: () => history.map((cmd, i) => `  ${i + 1}  ${escapeHtml(cmd)}`).join('\n'),
+
+    clear: () => {
+      output.innerHTML = '';
+      return '';
+    },
+
+    exit: () => {
+      toggleTerminal();
+      return '';
+    },
+
+    sudo: (args) => {
+      const full = args.join(' ');
+      if (full.includes('rm -rf')) {
+        return '<span class="text-sc-accent-yellow">I admire your courage, but no.</span>';
+      }
+      if (full.includes('make')) {
+        return `<span class="text-sc-accent-green">[sudo] Building something awesome...</span>\nDone. ✓`;
+      }
+      return `<span class="text-sc-accent-yellow">Nice try.</span> Permission denied... just kidding. You already have root.`;
+    },
+
+    cat: (args) => {
+      if (args[0] === 'resume.txt') {
+        return `<span class="text-sc-blue">Connor</span> — DevOps / Platform Engineering / DevSecOps / AI
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Building secure, scalable infrastructure.
+Automating everything that can be automated.
+Breaking things in homelabs so they don't break in prod.
+
+<span class="text-sc-text-muted">→ Visit <a href="/about" class="text-sc-blue underline">/about</a> for more.</span>`;
+      }
+      return `cat: ${escapeHtml(args[0] || '')}: No such file or directory`;
+    },
+
+    cd: (args) => {
+      const target = args[0] || '~';
+      if (['~', '/'].includes(target)) {
+        window.location.href = '/';
+        return '';
+      }
+      const pages: Record<string, string> = { about: '/about', blog: '/blog' };
+      if (pages[target] || pages[target.replace('/', '')]) {
+        window.location.href = pages[target] || pages[target.replace('/', '')];
+        return '';
+      }
+      return `bash: cd: ${escapeHtml(target)}: No such file or directory`;
+    },
+
+    pwd: () => '/home/connor/sudoconnor.ai',
+
+    date: () => new Date().toString(),
+
+    uname: () => 'SudoConnor OS 1.0.0 x86_64 GNU/Linux',
+  };
+
+  function processCommand(raw: string) {
+    const trimmed = raw.trim();
+    if (!trimmed) return;
+
+    history.push(trimmed);
+    historyIndex = history.length;
+
+    appendPrompt(trimmed);
+
+    const parts = trimmed.split(/\s+/);
+    const cmd = parts[0].toLowerCase();
+    const args = parts.slice(1);
+
+    const handler = commands[cmd];
+    const result = handler ? handler(args) : `<span class="text-red-400">Command not found: ${escapeHtml(cmd)}</span>. Type <span class="text-sc-accent-green">help</span> for available commands.`;
+
+    if (result) appendLine(result);
+  }
+
+  // Input handling
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      processCommand(input.value);
+      input.value = '';
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (historyIndex > 0) {
+        historyIndex--;
+        input.value = history[historyIndex];
+      }
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (historyIndex < history.length - 1) {
+        historyIndex++;
+        input.value = history[historyIndex];
+      } else {
+        historyIndex = history.length;
+        input.value = '';
+      }
+    } else if (e.key === 'Escape') {
+      toggleTerminal();
+    }
+  });
+
+  // Toggle shortcuts
+  document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.key === '`') {
+      e.preventDefault();
+      toggleTerminal();
+    }
+  });
+
+  closeBtn.addEventListener('click', toggleTerminal);
+  toggleBtn?.addEventListener('click', toggleTerminal);
+</script>

@@ -1,0 +1,32 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import BlogPostCard from '@/components/BlogPostCard.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog'))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout title="Blog | SudoConnor" description="Writing about DevOps, security, AI, and platform engineering.">
+  <section class="mx-auto max-w-3xl px-6 py-12">
+    <h1 class="mb-2 font-mono text-sm text-sc-blue">$ ls blog/</h1>
+    <h2 class="mb-8 text-3xl font-bold">Blog</h2>
+
+    {posts.length === 0 ? (
+      <p class="text-sc-text-muted">No posts yet. Check back soon.</p>
+    ) : (
+      <div class="grid gap-4">
+        {posts.map((post) => (
+          <BlogPostCard
+            title={post.data.title}
+            description={post.data.description}
+            pubDate={post.data.pubDate}
+            tags={post.data.tags}
+            slug={post.id}
+          />
+        ))}
+      </div>
+    )}
+  </section>
+</BaseLayout>

@@ -1,0 +1,47 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  frontmatter: {
+    title: string;
+    description: string;
+    pubDate: Date;
+    tags?: string[];
+  };
+}
+
+const { frontmatter } = Astro.props;
+const formattedDate = new Date(frontmatter.pubDate).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout title={`${frontmatter.title} | SudoConnor`} description={frontmatter.description}>
+  <article class="mx-auto max-w-3xl px-6 py-12">
+    <header class="mb-10">
+      <a href="/blog" class="mb-4 inline-flex items-center gap-1 text-sm text-sc-text-muted transition-colors hover:text-sc-blue">
+        &larr; Back to blog
+      </a>
+      <h1 class="mb-3 text-3xl font-bold sm:text-4xl">{frontmatter.title}</h1>
+      <div class="flex flex-wrap items-center gap-3 text-sm text-sc-text-muted">
+        <time datetime={frontmatter.pubDate.toISOString()}>{formattedDate}</time>
+        {frontmatter.tags && frontmatter.tags.length > 0 && (
+          <span class="text-sc-bg-surface">|</span>
+          <div class="flex flex-wrap gap-2">
+            {frontmatter.tags.map((tag: string) => (
+              <span class="rounded-full border border-sc-blue/20 bg-sc-blue/10 px-2.5 py-0.5 text-xs text-sc-blue">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+    </header>
+
+    <div class="prose prose-lg max-w-none">
+      <slot />
+    </div>
+  </article>
+</BaseLayout>

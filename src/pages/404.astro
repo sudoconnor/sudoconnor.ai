@@ -1,0 +1,18 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="404 | SudoConnor" description="Page not found.">
+  <section class="flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center px-6 text-center">
+    <pre class="mb-6 font-mono text-sm text-sc-text-muted"><span class="text-sc-accent-green">connor@sudoconnor</span>:<span class="text-sc-blue">~</span>$ cd /page-you-wanted
+<span class="text-red-400">bash: cd: /page-you-wanted: No such file or directory</span></pre>
+    <h1 class="mb-2 text-6xl font-bold text-sc-blue">404</h1>
+    <p class="mb-8 text-sc-text-muted">This page doesn't exist. Maybe it never did.</p>
+    <a
+      href="/"
+      class="rounded-lg border border-sc-blue bg-sc-blue/10 px-6 py-2.5 font-medium text-sc-blue transition-all hover:bg-sc-blue/20"
+    >
+      cd ~
+    </a>
+  </section>
+</BaseLayout>

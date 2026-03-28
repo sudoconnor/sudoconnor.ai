@@ -1,0 +1,79 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+const skills = {
+  'Infrastructure': ['Kubernetes', 'Terraform', 'Docker', 'Ansible', 'Helm'],
+  'Cloud': ['AWS', 'Azure', 'GCP'],
+  'Languages': ['Python', 'Go', 'TypeScript', 'Bash', 'HCL'],
+  'Security': ['DevSecOps', 'SAST/DAST', 'Policy as Code', 'Secret Management'],
+  'CI/CD': ['GitHub Actions', 'GitLab CI', 'ArgoCD', 'Jenkins'],
+  'AI & Automation': ['LLM Integration', 'Agentic Workflows', 'Prompt Engineering'],
+};
+---
+
+<BaseLayout title="About | SudoConnor" description="DevOps engineer, platform builder, and AI tinkerer.">
+  <section class="mx-auto max-w-3xl px-6 py-12">
+    <!-- Intro -->
+    <div class="mb-12">
+      <h1 class="mb-2 font-mono text-sm text-sc-blue">$ whoami</h1>
+      <h2 class="mb-6 text-3xl font-bold sm:text-4xl">Connor</h2>
+      <div class="space-y-4 text-lg leading-relaxed text-sc-text-muted">
+        <p>
+          I'm a DevOps and Platform Engineer who builds secure, scalable infrastructure
+          and isn't afraid to break things in the process. I work at the intersection of
+          platform engineering, security, and AI — automating what should be automated
+          and documenting what I learn along the way.
+        </p>
+        <p>
+          When I'm not wrangling Kubernetes clusters or hardening CI/CD pipelines,
+          I'm experimenting with agentic AI workflows and finding new ways to make
+          engineering teams move faster without sacrificing security.
+        </p>
+      </div>
+    </div>
+
+    <!-- Skills -->
+    <div class="mb-12">
+      <h2 class="mb-6 font-mono text-sm text-sc-blue">$ cat skills.json</h2>
+      <div class="grid gap-6 sm:grid-cols-2">
+        {Object.entries(skills).map(([category, items]) => (
+          <div>
+            <h3 class="mb-3 text-sm font-semibold uppercase tracking-wider text-sc-text-muted">
+              {category}
+            </h3>
+            <div class="flex flex-wrap gap-2">
+              {items.map((skill) => (
+                <span class="rounded-full border border-sc-blue/20 bg-sc-blue/10 px-3 py-1 text-xs font-medium text-sc-blue">
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Principles -->
+    <div>
+      <h2 class="mb-6 font-mono text-sm text-sc-blue">$ cat principles.md</h2>
+      <ul class="space-y-3 text-sc-text-muted">
+        <li class="flex items-start gap-3">
+          <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-sc-blue"></span>
+          <span><strong class="text-sc-text">Automate early, automate often.</strong> If you're doing it twice, script it.</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-sc-blue"></span>
+          <span><strong class="text-sc-text">Security is not a phase.</strong> It's baked into every layer, not bolted on at the end.</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-sc-blue"></span>
+          <span><strong class="text-sc-text">Document or it didn't happen.</strong> Future you will thank present you.</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-sc-blue"></span>
+          <span><strong class="text-sc-text">Ship fast, but ship safe.</strong> Fast feedback loops with guardrails, not recklessness.</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+</BaseLayout>

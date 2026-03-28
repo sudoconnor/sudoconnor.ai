@@ -1,0 +1,35 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-sc-blue/10 py-8">
+  <div class="mx-auto flex max-w-4xl flex-col items-center gap-4 px-6 text-sm text-sc-text-muted sm:flex-row sm:justify-between">
+    <p>&copy; {year} SudoConnor. All rights reserved.</p>
+
+    <div class="flex items-center gap-4">
+      <a
+        href="https://github.com/sudoconnor"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="transition-colors hover:text-sc-blue"
+      >
+        GitHub
+      </a>
+      <a
+        href="https://linkedin.com/in/sudoconnor"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="transition-colors hover:text-sc-blue"
+      >
+        LinkedIn
+      </a>
+      <button
+        id="terminal-toggle"
+        class="font-mono opacity-50 transition-all hover:text-sc-accent-green hover:opacity-100"
+        title="Toggle terminal (Ctrl+`)"
+      >
+        &gt;_
+      </button>
+    </div>
+  </div>
+</footer>
