@@ -1,9 +1,9 @@
 export const SITE = {
   title: 'SudoConnor',
-  description: 'Platform engineering, DevSecOps, and agentic AI — engineering outcomes, not just code.',
+  description: 'Platform engineering, DevSecOps, and agentic AI — building what matters.',
   url: 'https://sudoconnor.ai',
   author: 'Connor',
-  tagline: 'Engineering outcomes. Not just code.',
+  tagline: 'Building what matters. Shipping what works.',
 } as const;
 
 export const NAV_LINKS = [
