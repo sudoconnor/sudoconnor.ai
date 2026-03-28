@@ -1,6 +1,6 @@
 export const SITE = {
   title: 'SudoConnor',
-  description: 'Platform engineering, DevSecOps, and agentic AI — building what matters.',
+  description: 'Platform engineering, DevSecOps, and agentic AI. Building what matters.',
   url: 'https://sudoconnor.ai',
   author: 'Connor Meehan',
   tagline: 'Building what matters. Breaking what doesn\'t.',
