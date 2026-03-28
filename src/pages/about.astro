@@ -2,34 +2,72 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
 const skills = {
-  'Infrastructure': ['Kubernetes', 'Terraform', 'Docker', 'Ansible', 'Helm'],
-  'Cloud': ['AWS', 'Azure', 'GCP'],
-  'Languages': ['Python', 'Go', 'TypeScript', 'Bash', 'HCL'],
-  'Security': ['DevSecOps', 'SAST/DAST', 'Policy as Code', 'Secret Management'],
-  'CI/CD': ['GitHub Actions', 'GitLab CI', 'ArgoCD', 'Jenkins'],
-  'AI & Automation': ['LLM Integration', 'Agentic Workflows', 'Prompt Engineering'],
+  'Container & Orchestration': ['Kubernetes (CKA)', 'Docker', 'Helm', 'Kustomize', 'containerd', 'Podman', 'Harbor'],
+  'Cloud & Infrastructure': ['AWS', 'GCP', 'Azure', 'OpenStack', 'Proxmox', 'Bare Metal'],
+  'IaC & Config': ['Terraform', 'Ansible', 'Salt', 'Vault'],
+  'CI/CD': ['GitHub Actions', 'GitLab CI', 'Jenkins', 'ArgoCD', 'Flux'],
+  'Security': ['DevSecOps', 'Keycloak', 'RBAC', 'SSL/TLS', 'Air-Gapped Delivery'],
+  'Languages': ['Python', 'Go', 'Bash', 'HCL', 'TypeScript'],
+  'Observability': ['Prometheus', 'Grafana', 'Datadog', 'ELK Stack', 'Loki'],
+  'AI & Agents': ['Multi-Agent Systems', 'Agentic Workflows', 'LLM Integration'],
 };
 ---
 
-<BaseLayout title="About | SudoConnor" description="DevOps engineer, platform builder, and AI tinkerer.">
+<BaseLayout title="About | SudoConnor" description="Staff DevSecOps Engineer with 12+ years building infrastructure for defense and enterprise systems.">
   <section class="mx-auto max-w-3xl px-6 py-12">
     <!-- Intro -->
     <div class="mb-12">
       <h1 class="mb-2 font-mono text-sm text-sc-blue">$ whoami</h1>
-      <h2 class="mb-6 text-3xl font-bold sm:text-4xl">Connor</h2>
+      <h2 class="mb-6 text-3xl font-bold sm:text-4xl">Connor Meehan</h2>
+      <div class="mb-8 flex justify-center sm:justify-start">
+        <picture>
+          <source srcset="/connor.webp" type="image/webp" />
+          <img
+            src="/connor.png"
+            alt="Connor Meehan"
+            width="512"
+            height="512"
+            loading="eager"
+            class="h-32 w-32 rounded-full border-2 border-sc-blue/20 object-cover"
+          />
+        </picture>
+      </div>
       <div class="space-y-4 text-lg leading-relaxed text-sc-text-muted">
         <p>
-          I'm a DevOps and Platform Engineer who builds secure, scalable infrastructure
-          and isn't afraid to break things in the process. I work at the intersection of
-          platform engineering, security, and AI — automating what should be automated
-          and documenting what I learn along the way.
+          I break things for a living, then I make them unbreakable. 12+ years of
+          building infrastructure across commercial and defense, from bare metal racks
+          and global hosting platforms to air-gapped Kubernetes clusters running AI
+          platforms for DoD customers doing things I probably can't talk about.
         </p>
         <p>
-          When I'm not wrangling Kubernetes clusters or hardening CI/CD pipelines,
-          I'm experimenting with agentic AI workflows and finding new ways to make
-          engineering teams move faster without sacrificing security.
+          Currently at <strong class="text-sc-text">Raft</strong>, leading a DevSecOps
+          team shipping AI-powered data platforms across classification levels where
+          "it went down" isn't an inconvenience, it's a mission failure. I've provisioned
+          500+ node clusters across 5 global regions, automated what used to take days
+          into minutes, and deleted more code than most people write.
+        </p>
+        <p>
+          I'm obsessed with agentic AI and what it means for how we build. The engineers
+          who figure out how to wield agents will build things the rest of the industry
+          can't even scope. That's where I'm headed.
         </p>
       </div>
+    </div>
+
+    <!-- Credentials -->
+    <div class="mb-12 flex flex-wrap gap-3">
+      <span class="rounded-full border border-sc-accent-green/30 bg-sc-accent-green/10 px-3 py-1 text-xs font-medium text-sc-accent-green">
+        TS/SCI Cleared
+      </span>
+      <span class="rounded-full border border-sc-blue/30 bg-sc-blue/10 px-3 py-1 text-xs font-medium text-sc-blue">
+        CKA Certified
+      </span>
+      <span class="rounded-full border border-sc-blue/30 bg-sc-blue/10 px-3 py-1 text-xs font-medium text-sc-blue">
+        Security+ Certified
+      </span>
+      <span class="rounded-full border border-sc-text-muted/30 bg-sc-text-muted/10 px-3 py-1 text-xs font-medium text-sc-text-muted">
+        Tampa, FL
+      </span>
     </div>
 
     <!-- Skills -->
@@ -59,19 +97,23 @@ const skills = {
       <ul class="space-y-3 text-sc-text-muted">
         <li class="flex items-start gap-3">
           <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-sc-blue"></span>
-          <span><strong class="text-sc-text">Automate early, automate often.</strong> If you're doing it twice, script it.</span>
+          <span><strong class="text-sc-text">Move fast and break things.</strong> Momentum beats perfection. You learn more from what breaks than from what you were afraid to touch.</span>
         </li>
         <li class="flex items-start gap-3">
           <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-sc-blue"></span>
-          <span><strong class="text-sc-text">Security is not a phase.</strong> It's baked into every layer, not bolted on at the end.</span>
+          <span><strong class="text-sc-text">One line deleted beats ten lines written.</strong> If you didn't break something, you probably didn't delete enough.</span>
         </li>
         <li class="flex items-start gap-3">
           <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-sc-blue"></span>
-          <span><strong class="text-sc-text">Document or it didn't happen.</strong> Future you will thank present you.</span>
+          <span><strong class="text-sc-text">Results over solutions.</strong> Nobody cares how clever the architecture is if it doesn't ship. Solve the problem, prove it works, move on.</span>
         </li>
         <li class="flex items-start gap-3">
           <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-sc-blue"></span>
-          <span><strong class="text-sc-text">Ship fast, but ship safe.</strong> Fast feedback loops with guardrails, not recklessness.</span>
+          <span><strong class="text-sc-text">Security is architecture, not a checkbox.</strong> If your pipeline can ship insecure code, your pipeline is the vulnerability.</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-sc-blue"></span>
+          <span><strong class="text-sc-text">Agents will replace engineers who don't use them.</strong> The tools are here. Learn to wield them or get left behind.</span>
         </li>
       </ul>
     </div>

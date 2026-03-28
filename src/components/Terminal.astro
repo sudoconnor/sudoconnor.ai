@@ -23,7 +23,7 @@
       </div>
 
       <!-- Output area -->
-      <div id="terminal-output" class="h-64 overflow-y-auto p-4 font-mono text-sm leading-relaxed">
+      <div id="terminal-output" class="h-64 overflow-x-auto overflow-y-auto p-4 font-mono text-xs leading-relaxed sm:text-sm">
         <div class="text-sc-text-muted">Welcome to SudoConnor terminal. Type <span class="text-sc-accent-green">help</span> for available commands.</div>
       </div>
 
@@ -94,20 +94,23 @@
   <span class="text-sc-accent-green">exit</span>        - Close terminal`,
 
     whoami: () =>
-      'Connor — DevOps Engineer / Platform Builder / DevSecOps / AI Tinkerer',
+      'Connor Meehan // Staff DevSecOps Engineer @ Raft | TS/SCI | CKA',
 
     about: () =>
-      `I build secure, scalable infrastructure and experiment with AI.
-Platform engineering by day, breaking things in homelabs by night.
+      `12+ years building infrastructure for defense and enterprise systems.
+Leading DevSecOps for AI platforms serving DoD customers I probably can't talk about.
+Air-gapped, edge, and cloud. Wherever the mission needs it.
 <span class="text-sc-text-muted">→ Visit <a href="/about" class="text-sc-blue underline">/about</a> for the full story.</span>`,
 
     skills: () =>
-      `<span class="text-sc-blue">Infrastructure:</span> Kubernetes, Terraform, Docker, Ansible, Helm
-<span class="text-sc-blue">Cloud:</span>          AWS, Azure, GCP
-<span class="text-sc-blue">Languages:</span>      Python, Go, TypeScript, Bash, HCL
-<span class="text-sc-blue">Security:</span>       DevSecOps, SAST/DAST, Policy as Code
-<span class="text-sc-blue">CI/CD:</span>          GitHub Actions, GitLab CI, ArgoCD
-<span class="text-sc-blue">AI:</span>             LLM Integration, Agentic Workflows`,
+      `<span class="text-sc-blue">Containers:</span>     Kubernetes (CKA), Docker, Helm, Kustomize, Harbor
+<span class="text-sc-blue">Cloud:</span>          AWS, GCP, Azure, OpenStack, Bare Metal
+<span class="text-sc-blue">IaC:</span>            Terraform, Ansible, Salt, Vault
+<span class="text-sc-blue">CI/CD:</span>          GitHub Actions, GitLab CI, Jenkins, ArgoCD, Flux
+<span class="text-sc-blue">Security:</span>       DevSecOps, Keycloak, RBAC, Air-Gapped Delivery
+<span class="text-sc-blue">Languages:</span>      Python, Go, Bash, HCL, TypeScript
+<span class="text-sc-blue">Observability:</span>  Prometheus, Grafana, Datadog, ELK, Loki
+<span class="text-sc-blue">AI:</span>             Multi-Agent Systems, Agentic Workflows, LLMs`,
 
     projects: () =>
       `<span class="text-sc-text-muted">Notable projects:</span>
@@ -116,24 +119,25 @@ Platform engineering by day, breaking things in homelabs by night.
 
     contact: () =>
       `<span class="text-sc-blue">GitHub:</span>    <a href="https://github.com/sudoconnor" class="text-sc-blue-light underline" target="_blank">github.com/sudoconnor</a>
-<span class="text-sc-blue">LinkedIn:</span>  <a href="https://linkedin.com/in/sudoconnor" class="text-sc-blue-light underline" target="_blank">linkedin.com/in/sudoconnor</a>`,
+<span class="text-sc-blue">LinkedIn:</span>  <a href="https://www.linkedin.com/in/meehan-connor" class="text-sc-blue-light underline" target="_blank">linkedin.com/in/meehan-connor</a>`,
 
     blog: () =>
       `<span class="text-sc-text-muted">Latest posts:</span>
-  <a href="/blog/hello-world" class="text-sc-blue-light underline">Hello, World — Welcome to SudoConnor</a>
+  <a href="/blog/hello-world" class="text-sc-blue-light underline">Hello, World</a>
 <span class="text-sc-text-muted">→ Visit <a href="/blog" class="text-sc-blue underline">/blog</a> for all posts.</span>`,
 
     neofetch: () =>
       `<span class="text-sc-blue">  ____  ____</span>          <span class="text-sc-text">connor</span>@<span class="text-sc-blue">sudoconnor.ai</span>
-<span class="text-sc-blue"> / ___||  _ \\</span>         ─────────────────────
-<span class="text-sc-blue"> \\___ \\| |_) |</span>        <span class="text-sc-blue">OS:</span> Cloud-Native Linux
-<span class="text-sc-blue">  ___) |  __/</span>         <span class="text-sc-blue">Shell:</span> zsh + oh-my-zsh
-<span class="text-sc-blue"> |____/|_|</span>            <span class="text-sc-blue">Uptime:</span> since the first docker run
-                      <span class="text-sc-blue">Packages:</span> mass (terraform, helm, kubectl)
-                      <span class="text-sc-blue">IDE:</span> VS Code (obviously)
-                      <span class="text-sc-blue">Languages:</span> Python, Go, TS, HCL
-                      <span class="text-sc-blue">Infra:</span> AWS / Azure / GCP
-                      <span class="text-sc-blue">Status:</span> <span class="text-sc-accent-green">Building cool stuff</span>`,
+<span class="text-sc-blue"> / ___||  _ \\</span>         ─────────────────────────
+<span class="text-sc-blue"> \\___ \\| |_) |</span>        <span class="text-sc-blue">Role:</span> Staff DevSecOps @ Raft
+<span class="text-sc-blue">  ___) |  __/</span>         <span class="text-sc-blue">XP:</span> 12+ years
+<span class="text-sc-blue"> |____/|_|</span>            <span class="text-sc-blue">Clearance:</span> TS/SCI
+                      <span class="text-sc-blue">Certs:</span> CKA, Security+
+                      <span class="text-sc-blue">Location:</span> Tampa, FL
+                      <span class="text-sc-blue">Languages:</span> Python, Go, Bash, HCL
+                      <span class="text-sc-blue">Infra:</span> AWS / GCP / Azure / Bare Metal
+                      <span class="text-sc-blue">Nodes:</span> 500+ across 5 regions
+                      <span class="text-sc-blue">Status:</span> <span class="text-sc-accent-green">Shipping what matters</span>`,
 
     ls: () =>
       `<span class="text-sc-blue">drwxr-xr-x</span>  home/
@@ -167,11 +171,15 @@ Platform engineering by day, breaking things in homelabs by night.
 
     cat: (args) => {
       if (args[0] === 'resume.txt') {
-        return `<span class="text-sc-blue">Connor</span> — DevOps / Platform Engineering / DevSecOps / AI
+        return `<span class="text-sc-blue">Connor Meehan</span> // Staff DevSecOps Engineer
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Building secure, scalable infrastructure.
-Automating everything that can be automated.
-Breaking things in homelabs so they don't break in prod.
+12+ years | TS/SCI | CKA | Security+
+
+<span class="text-sc-blue">Raft</span>         Staff DevSecOps    2024–Present
+<span class="text-sc-blue">Raft</span>         Sr. DevSecOps      2023–2024
+<span class="text-sc-blue">IBM/BoxBoat</span>  Sr. DevOps / SA    2022–2023
+<span class="text-sc-blue">Hivelocity</span>   Sr. DevOps         2019–2022
+<span class="text-sc-blue">Hivelocity</span>   Jr. DevOps         2013–2019
 
 <span class="text-sc-text-muted">→ Visit <a href="/about" class="text-sc-blue underline">/about</a> for more.</span>`;
       }

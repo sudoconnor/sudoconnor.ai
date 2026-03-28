@@ -47,7 +47,7 @@ import { SITE } from '@/data/site';
     function typeNext() {
       if (i < chars.length) {
         const end = Math.min(i + charsPerFrame, chars.length);
-        logoEl.textContent += LOGO.slice(i, end);
+        logoEl!.textContent += LOGO.slice(i, end);
         i = end;
         requestAnimationFrame(typeNext);
       } else {

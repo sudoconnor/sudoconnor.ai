@@ -4,7 +4,7 @@ import AsciiLogo from '@/components/AsciiLogo.astro';
 import { SITE } from '@/data/site';
 ---
 
-<BaseLayout title={`${SITE.title} — ${SITE.tagline}`} description={SITE.description}>
+<BaseLayout title={`${SITE.title} | ${SITE.tagline}`} description={SITE.description}>
   <section class="flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center px-6">
     <AsciiLogo />
 
@@ -26,23 +26,28 @@ import { SITE } from '@/data/site';
 
   <!-- Brief intro section -->
   <section class="mx-auto max-w-3xl px-6 pb-20">
+    <p class="mb-10 text-center text-lg text-sc-text-muted">
+      Staff DevSecOps Engineer. 12+ years across commercial and defense.
+      Currently shipping AI platforms for the DoD at <strong class="text-sc-text">Raft</strong>.
+    </p>
+
     <div class="grid gap-6 sm:grid-cols-3">
       <div class="rounded-lg border border-sc-blue/10 bg-sc-bg-card p-6">
-        <div class="mb-3 font-mono text-sm text-sc-blue">01 // DevOps</div>
+        <div class="mb-3 font-mono text-sm text-sc-blue">01 // Platform</div>
         <p class="text-sm text-sc-text-muted">
-          Infrastructure as code, CI/CD pipelines, Kubernetes, and cloud-native architecture.
+          Kubernetes clusters across classification levels. Air-gapped, edge, cloud. 500+ nodes, 5 regions, zero excuses.
         </p>
       </div>
       <div class="rounded-lg border border-sc-blue/10 bg-sc-bg-card p-6">
         <div class="mb-3 font-mono text-sm text-sc-blue">02 // Security</div>
         <p class="text-sm text-sc-text-muted">
-          DevSecOps practices, pipeline hardening, compliance automation, and threat modeling.
+          If your pipeline can ship insecure code, your pipeline is the vulnerability. Security is architecture, not a checkbox.
         </p>
       </div>
       <div class="rounded-lg border border-sc-blue/10 bg-sc-bg-card p-6">
-        <div class="mb-3 font-mono text-sm text-sc-blue">03 // AI</div>
+        <div class="mb-3 font-mono text-sm text-sc-blue">03 // Agents</div>
         <p class="text-sm text-sc-text-muted">
-          Agentic workflows, AI-assisted engineering, intelligent automation, and LLM integration.
+          The engineers who learn to wield agents will build things the rest of the industry can't even scope.
         </p>
       </div>
     </div>
