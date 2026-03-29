@@ -22,7 +22,7 @@
     </div>
 
     <!-- Output area -->
-    <div id="terminal-output" class="min-h-0 flex-1 overflow-y-auto p-4 font-mono text-xs leading-relaxed sm:text-sm">
+    <div id="terminal-output" class="min-h-0 flex-1 overflow-y-auto overscroll-contain p-4 font-mono text-xs leading-relaxed sm:text-sm">
       <div class="whitespace-pre-wrap break-words text-sc-text-muted">Welcome to SudoConnor terminal. Type <span class="text-sc-accent-green">help</span> for available commands.</div>
     </div>
 
@@ -56,25 +56,28 @@
   let isOpen = false;
 
   // -- iOS keyboard handling via visualViewport --
+  // Uses top + height (not bottom) to anchor to the visual viewport,
+  // which is the only reliable approach on iOS Safari.
   function updateLayout() {
     const isMobile = window.innerWidth < 640;
     if (!isMobile || !isOpen) {
       container.style.height = '';
-      container.style.bottom = '';
+      container.style.top = '';
       return;
     }
 
     if (window.visualViewport) {
       const vv = window.visualViewport;
-      // Set height to fill visual viewport
       container.style.height = `${vv.height}px`;
-      // Offset from the bottom to account for keyboard
-      const bottomOffset = window.innerHeight - (vv.offsetTop + vv.height);
-      container.style.bottom = `${bottomOffset}px`;
+      container.style.top = `${vv.offsetTop}px`;
     } else {
-      container.style.height = '100vh';
-      container.style.bottom = '0';
+      container.style.height = '100%';
+      container.style.top = '0';
     }
+
+    requestAnimationFrame(() => {
+      output.scrollTop = output.scrollHeight;
+    });
   }
 
   if (window.visualViewport) {
@@ -85,15 +88,8 @@
   function openTerminal() {
     isOpen = true;
     panel.classList.remove('hidden');
-    // On mobile, set initial full-screen size
-    const isMobile = window.innerWidth < 640;
-    if (isMobile) {
-      container.style.position = 'fixed';
-      container.style.left = '0';
-      container.style.right = '0';
-      updateLayout();
-    }
-    // Small delay to let the layout settle before focusing
+    document.body.style.overflow = 'hidden';
+    updateLayout();
     setTimeout(() => {
       input.focus();
       output.scrollTop = output.scrollHeight;
@@ -103,9 +99,9 @@
   function closeTerminal() {
     isOpen = false;
     panel.classList.add('hidden');
+    document.body.style.overflow = '';
     container.style.height = '';
-    container.style.bottom = '';
-    container.style.position = '';
+    container.style.top = '';
     input.blur();
   }
 
