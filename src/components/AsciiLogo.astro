@@ -2,27 +2,42 @@
 import { SITE } from '@/data/site';
 ---
 
-<div class="flex flex-col items-center justify-center text-center">
-  <!-- Large ASCII art for sm+ screens -->
-  <pre
-    id="ascii-logo"
-    class="hidden select-none font-mono text-[0.45rem] leading-tight text-sc-blue glow-blue sm:block sm:text-xs md:text-sm lg:text-base"
-    aria-label="SudoConnor"
-  ></pre>
+<div class="w-full max-w-3xl px-4">
+  <!-- Terminal window -->
+  <div class="overflow-hidden rounded-lg border border-sc-bg-surface shadow-2xl shadow-sc-blue/5">
+    <!-- Title bar -->
+    <div class="flex items-center gap-2 border-b border-sc-bg-surface bg-sc-bg-card px-4 py-2.5">
+      <span class="h-3 w-3 rounded-full bg-[#FF5F56]"></span>
+      <span class="h-3 w-3 rounded-full bg-[#FFBD2E]"></span>
+      <span class="h-3 w-3 rounded-full bg-[#27C93F]"></span>
+      <span class="ml-3 font-mono text-xs text-sc-text-muted">sudoconnor — bash</span>
+    </div>
 
-  <!-- Simple text for mobile -->
-  <h1
-    id="ascii-logo-mobile"
-    class="font-mono text-3xl font-bold text-sc-blue glow-blue opacity-0 sm:hidden"
-  >
-    &gt;_ SudoConnor
-  </h1>
+    <!-- Terminal body -->
+    <div class="bg-sc-bg p-4 sm:p-6">
+      <!-- ASCII art line (desktop only) -->
+      <pre
+        id="ascii-logo"
+        class="hidden select-none font-mono text-[0.45rem] leading-tight text-sc-blue glow-blue sm:block sm:text-xs md:text-sm lg:text-base"
+        aria-label="SudoConnor"
+      ></pre>
 
-  <p id="tagline" class="mt-6 max-w-md text-lg text-sc-text-muted opacity-0 sm:text-xl">
-    {SITE.tagline}
-  </p>
+      <!-- Mobile: typed prompt -->
+      <div id="mobile-prompt" class="flex items-center font-mono sm:hidden">
+        <span class="text-sc-accent-green">~</span>
+        <span class="mx-1 text-sc-text-muted">$</span>
+        <span id="mobile-typed" class="text-2xl font-bold text-sc-blue glow-blue"></span>
+        <span id="mobile-cursor" class="ml-0.5 inline-block h-6 w-2 bg-sc-blue animate-blink"></span>
+      </div>
 
-  <span id="cursor" class="ml-1 inline-block h-5 w-0.5 bg-sc-blue opacity-0"></span>
+      <!-- Output section (appears after typing) -->
+      <div id="terminal-output" class="mt-4 space-y-1 opacity-0">
+        <p class="font-mono text-sm text-sc-text-muted sm:text-base">
+          <span class="text-sc-accent-green">→</span> {SITE.tagline}
+        </p>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -33,10 +48,16 @@ import { SITE } from '@/data/site';
  |____/ \\__,_|\\__,_|\\___/ \\____\\___/|_| |_|_| |_|\\___/|_|`;
 
   const logoEl = document.getElementById('ascii-logo');
-  const mobileEl = document.getElementById('ascii-logo-mobile');
-  const taglineEl = document.getElementById('tagline');
-  const cursorEl = document.getElementById('cursor');
+  const mobileTyped = document.getElementById('mobile-typed');
+  const mobileCursor = document.getElementById('mobile-cursor');
+  const outputEl = document.getElementById('terminal-output');
 
+  function showOutput() {
+    outputEl?.classList.remove('opacity-0');
+    outputEl?.classList.add('animate-fade-in');
+  }
+
+  // Desktop: type ASCII art
   function animateLogo() {
     if (!logoEl) return;
 
@@ -51,28 +72,43 @@ import { SITE } from '@/data/site';
         i = end;
         requestAnimationFrame(typeNext);
       } else {
-        showTagline();
+        showOutput();
       }
     }
 
     requestAnimationFrame(typeNext);
   }
 
-  function showTagline() {
-    taglineEl?.classList.remove('opacity-0');
-    taglineEl?.classList.add('animate-fade-in');
-    cursorEl?.classList.remove('opacity-0');
-    cursorEl?.classList.add('animate-blink');
+  // Mobile: type "SudoConnor" character by character
+  function animateMobile() {
+    if (!mobileTyped) return;
+
+    const text = 'SudoConnor';
+    let i = 0;
+
+    function typeChar() {
+      if (i < text.length) {
+        mobileTyped!.textContent += text[i];
+        i++;
+        setTimeout(typeChar, 80);
+      } else {
+        // Stop blinking cursor briefly, then show output
+        setTimeout(() => {
+          mobileCursor?.classList.remove('animate-blink');
+          mobileCursor?.classList.add('opacity-0');
+          showOutput();
+        }, 400);
+      }
+    }
+
+    setTimeout(typeChar, 500);
   }
 
-  // Mobile: just fade in
-  if (mobileEl) {
-    setTimeout(() => {
-      mobileEl.classList.remove('opacity-0');
-      mobileEl.classList.add('animate-fade-in');
-      setTimeout(showTagline, 400);
-    }, 200);
+  // Detect which to run
+  const isMobile = window.matchMedia('(max-width: 639px)').matches;
+  if (isMobile) {
+    animateMobile();
+  } else {
+    animateLogo();
   }
-
-  animateLogo();
 </script>
