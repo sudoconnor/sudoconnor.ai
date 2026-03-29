@@ -1,74 +1,136 @@
 ---
 ---
 
+<!-- Desktop: bottom panel -->
 <div
   id="terminal-panel"
-  class="fixed inset-0 z-50 hidden sm:inset-auto sm:inset-x-0 sm:bottom-0"
+  class="fixed inset-x-0 bottom-0 z-50 hidden max-sm:hidden"
 >
-  <!-- Mobile: full screen backdrop -->
-  <div class="h-full w-full bg-sc-bg/95 backdrop-blur-sm sm:bg-transparent sm:backdrop-blur-none">
-    <div class="flex h-full flex-col sm:mx-auto sm:h-auto sm:max-w-3xl sm:px-4 sm:pb-4">
-      <div class="flex h-full flex-col overflow-hidden border-sc-blue/20 bg-sc-bg-card shadow-2xl shadow-sc-blue-glow sm:h-auto sm:rounded-lg sm:border">
-        <!-- Title bar -->
-        <div class="flex items-center justify-between border-b border-sc-blue/10 px-4 py-2">
-          <div class="flex items-center gap-2">
-            <span class="h-3 w-3 rounded-full bg-red-500/80"></span>
-            <span class="h-3 w-3 rounded-full bg-sc-accent-yellow/80"></span>
-            <span class="h-3 w-3 rounded-full bg-sc-accent-green/80"></span>
-          </div>
-          <span class="font-mono text-xs text-sc-text-muted">sudoconnor</span>
-          <button id="terminal-close" class="p-1 text-sc-text-muted transition-colors hover:text-sc-text" aria-label="Close terminal">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="2" y1="2" x2="12" y2="12" /><line x1="12" y1="2" x2="2" y2="12" />
-            </svg>
-          </button>
+  <div class="mx-auto max-w-3xl px-4 pb-4">
+    <div class="overflow-hidden rounded-lg border border-sc-blue/20 bg-sc-bg-card shadow-2xl shadow-sc-blue-glow">
+      <!-- Title bar -->
+      <div class="flex items-center justify-between border-b border-sc-blue/10 px-4 py-2">
+        <div class="flex items-center gap-2">
+          <span class="h-3 w-3 rounded-full bg-red-500/80"></span>
+          <span class="h-3 w-3 rounded-full bg-sc-accent-yellow/80"></span>
+          <span class="h-3 w-3 rounded-full bg-sc-accent-green/80"></span>
         </div>
+        <span class="font-mono text-xs text-sc-text-muted">sudoconnor</span>
+        <button class="terminal-close-btn p-1 text-sc-text-muted transition-colors hover:text-sc-text" aria-label="Close terminal">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="2" y1="2" x2="12" y2="12" /><line x1="12" y1="2" x2="2" y2="12" />
+          </svg>
+        </button>
+      </div>
+      <div id="terminal-output-desktop" class="h-64 overflow-y-auto p-4 font-mono text-sm leading-relaxed">
+        <div class="text-sc-text-muted">Welcome to SudoConnor terminal. Type <span class="text-sc-accent-green">help</span> for available commands.</div>
+      </div>
+      <div class="flex items-center border-t border-sc-blue/10 px-4 py-2 font-mono text-sm">
+        <span class="shrink-0 text-sc-accent-green">$</span><span class="shrink-0 text-sc-text-muted">&nbsp;</span>
+        <input
+          id="terminal-input-desktop"
+          type="text"
+          class="terminal-input min-w-0 flex-1 border-none bg-transparent text-sc-text outline-none"
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
+        />
+      </div>
+    </div>
+  </div>
+</div>
 
-        <!-- Output area -->
-        <div id="terminal-output" class="min-h-0 flex-1 overflow-y-auto p-4 font-mono text-xs leading-relaxed sm:h-64 sm:flex-none sm:text-sm">
-          <div class="text-sc-text-muted">Welcome to SudoConnor terminal. Type <span class="text-sc-accent-green">help</span> for available commands.</div>
-        </div>
+<!-- Mobile: full screen overlay -->
+<div
+  id="terminal-panel-mobile"
+  class="fixed inset-0 z-50 hidden sm:hidden"
+  style="height: 100dvh;"
+>
+  <div class="flex h-full flex-col bg-sc-bg-card">
+    <!-- Title bar -->
+    <div class="flex shrink-0 items-center justify-between border-b border-sc-blue/10 px-4 py-3">
+      <div class="flex items-center gap-2">
+        <span class="h-3 w-3 rounded-full bg-red-500/80"></span>
+        <span class="h-3 w-3 rounded-full bg-sc-accent-yellow/80"></span>
+        <span class="h-3 w-3 rounded-full bg-sc-accent-green/80"></span>
+        <span class="ml-2 font-mono text-xs text-sc-text-muted">sudoconnor</span>
+      </div>
+      <button class="terminal-close-btn rounded-md px-3 py-1.5 text-sm text-sc-text-muted transition-colors hover:text-sc-text" aria-label="Close terminal">
+        ✕ close
+      </button>
+    </div>
 
-        <!-- Input line -->
-        <div class="flex items-center border-t border-sc-blue/10 px-4 py-3 font-mono text-sm sm:py-2">
-          <span class="shrink-0 text-sc-accent-green">$</span><span class="shrink-0 text-sc-text-muted">&nbsp;</span>
-          <input
-            id="terminal-input"
-            type="text"
-            class="min-w-0 flex-1 border-none bg-transparent text-sc-text outline-none"
-            autocomplete="off"
-            autocapitalize="off"
-            spellcheck="false"
-          />
-        </div>
+    <!-- Output area -->
+    <div id="terminal-output-mobile" class="min-h-0 flex-1 overflow-y-auto p-4 font-mono text-sm leading-relaxed">
+      <div class="text-sc-text-muted">Welcome to SudoConnor terminal. Type <span class="text-sc-accent-green">help</span> for available commands.</div>
+    </div>
+
+    <!-- Input line - pinned to bottom -->
+    <div class="shrink-0 border-t border-sc-blue/10 bg-sc-bg px-4 py-3 font-mono text-base">
+      <div class="flex items-center">
+        <span class="shrink-0 text-sc-accent-green">$</span><span class="shrink-0 text-sc-text-muted">&nbsp;</span>
+        <input
+          id="terminal-input-mobile"
+          type="text"
+          class="terminal-input min-w-0 flex-1 border-none bg-transparent text-base text-sc-text outline-none"
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
+          enterkeyhint="send"
+        />
       </div>
     </div>
   </div>
 </div>
 
 <script>
-  const panel = document.getElementById('terminal-panel')!;
-  const output = document.getElementById('terminal-output')!;
-  const input = document.getElementById('terminal-input') as HTMLInputElement;
-  const closeBtn = document.getElementById('terminal-close')!;
+  const desktopPanel = document.getElementById('terminal-panel')!;
+  const mobilePanel = document.getElementById('terminal-panel-mobile')!;
+  const desktopOutput = document.getElementById('terminal-output-desktop')!;
+  const mobileOutput = document.getElementById('terminal-output-mobile')!;
+  const desktopInput = document.getElementById('terminal-input-desktop') as HTMLInputElement;
+  const mobileInput = document.getElementById('terminal-input-mobile') as HTMLInputElement;
   const toggleBtn = document.getElementById('terminal-toggle');
 
   const history: string[] = [];
   let historyIndex = -1;
 
+  function isMobile() {
+    return window.matchMedia('(max-width: 639px)').matches;
+  }
+
+  function getActivePanel() { return isMobile() ? mobilePanel : desktopPanel; }
+  function getActiveOutput() { return isMobile() ? mobileOutput : desktopOutput; }
+  function getActiveInput() { return isMobile() ? mobileInput : desktopInput; }
+
   function toggleTerminal() {
-    panel.classList.toggle('hidden');
-    if (!panel.classList.contains('hidden')) {
+    const panel = getActivePanel();
+    const input = getActiveInput();
+    // Hide both panels first
+    desktopPanel.classList.add('hidden');
+    mobilePanel.classList.add('hidden');
+
+    if (panel.classList.contains('hidden')) {
+      // Was hidden, now show
+      panel.classList.remove('hidden');
       input.focus();
+      // On mobile, scroll to keep input visible when keyboard opens
+      if (isMobile()) {
+        setTimeout(() => input.scrollIntoView({ block: 'end' }), 300);
+      }
     }
+    // else: both are now hidden (closed)
   }
 
   function appendLine(text: string, className = '') {
-    const div = document.createElement('div');
-    div.className = 'whitespace-pre-wrap break-words' + (className ? ' ' + className : '');
-    div.innerHTML = text;
-    output.appendChild(div);
-    output.scrollTop = output.scrollHeight;
+    // Append to both outputs so they stay in sync
+    [desktopOutput, mobileOutput].forEach(output => {
+      const div = document.createElement('div');
+      div.className = 'whitespace-pre-wrap break-words' + (className ? ' ' + className : '');
+      div.innerHTML = text;
+      output.appendChild(div);
+      output.scrollTop = output.scrollHeight;
+    });
   }
 
   function appendPrompt(cmd: string) {
@@ -147,7 +209,8 @@ Leading DevSecOps for AI platforms serving DoD customers I probably can't talk a
     history: () => history.map((cmd, i) => `  ${i + 1}  ${escapeHtml(cmd)}`).join('\n'),
 
     clear: () => {
-      output.innerHTML = '';
+      desktopOutput.innerHTML = '';
+      mobileOutput.innerHTML = '';
       return '';
     },
 
@@ -223,30 +286,35 @@ TS/SCI | CKA | Security+
     if (result) appendLine(result);
   }
 
-  // Input handling
-  input.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      processCommand(input.value);
-      input.value = '';
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      if (historyIndex > 0) {
-        historyIndex--;
-        input.value = history[historyIndex];
+  // Input handling for both inputs
+  function setupInput(inputEl: HTMLInputElement) {
+    inputEl.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        processCommand(inputEl.value);
+        inputEl.value = '';
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (historyIndex > 0) {
+          historyIndex--;
+          inputEl.value = history[historyIndex];
+        }
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (historyIndex < history.length - 1) {
+          historyIndex++;
+          inputEl.value = history[historyIndex];
+        } else {
+          historyIndex = history.length;
+          inputEl.value = '';
+        }
+      } else if (e.key === 'Escape') {
+        toggleTerminal();
       }
-    } else if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      if (historyIndex < history.length - 1) {
-        historyIndex++;
-        input.value = history[historyIndex];
-      } else {
-        historyIndex = history.length;
-        input.value = '';
-      }
-    } else if (e.key === 'Escape') {
-      toggleTerminal();
-    }
-  });
+    });
+  }
+
+  setupInput(desktopInput);
+  setupInput(mobileInput);
 
   // Toggle shortcuts
   document.addEventListener('keydown', (e) => {
@@ -256,6 +324,9 @@ TS/SCI | CKA | Security+
     }
   });
 
-  closeBtn.addEventListener('click', toggleTerminal);
+  // Close buttons
+  document.querySelectorAll('.terminal-close-btn').forEach(btn => {
+    btn.addEventListener('click', toggleTerminal);
+  });
   toggleBtn?.addEventListener('click', toggleTerminal);
 </script>
