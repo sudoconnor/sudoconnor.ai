@@ -3,40 +3,44 @@
 
 <div
   id="terminal-panel"
-  class="fixed inset-x-0 bottom-0 z-50 hidden transition-transform duration-300"
+  class="fixed inset-0 z-50 hidden sm:inset-auto sm:inset-x-0 sm:bottom-0"
 >
-  <div class="mx-auto max-w-3xl px-4 pb-4">
-    <div class="overflow-hidden rounded-lg border border-sc-blue/20 bg-sc-bg-card shadow-2xl shadow-sc-blue-glow">
-      <!-- Title bar -->
-      <div class="flex items-center justify-between border-b border-sc-blue/10 px-4 py-2">
-        <div class="flex items-center gap-2">
-          <span class="h-3 w-3 rounded-full bg-red-500/80"></span>
-          <span class="h-3 w-3 rounded-full bg-sc-accent-yellow/80"></span>
-          <span class="h-3 w-3 rounded-full bg-sc-accent-green/80"></span>
+  <!-- Mobile: full screen backdrop -->
+  <div class="h-full w-full bg-sc-bg/95 backdrop-blur-sm sm:bg-transparent sm:backdrop-blur-none">
+    <div class="flex h-full flex-col sm:mx-auto sm:h-auto sm:max-w-3xl sm:px-4 sm:pb-4">
+      <div class="flex h-full flex-col overflow-hidden border-sc-blue/20 bg-sc-bg-card shadow-2xl shadow-sc-blue-glow sm:h-auto sm:rounded-lg sm:border">
+        <!-- Title bar -->
+        <div class="flex items-center justify-between border-b border-sc-blue/10 px-4 py-2">
+          <div class="flex items-center gap-2">
+            <span class="h-3 w-3 rounded-full bg-red-500/80"></span>
+            <span class="h-3 w-3 rounded-full bg-sc-accent-yellow/80"></span>
+            <span class="h-3 w-3 rounded-full bg-sc-accent-green/80"></span>
+          </div>
+          <span class="font-mono text-xs text-sc-text-muted">sudoconnor</span>
+          <button id="terminal-close" class="p-1 text-sc-text-muted transition-colors hover:text-sc-text" aria-label="Close terminal">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="2" y1="2" x2="12" y2="12" /><line x1="12" y1="2" x2="2" y2="12" />
+            </svg>
+          </button>
         </div>
-        <span class="font-mono text-xs text-sc-text-muted">connor@sudoconnor ~ </span>
-        <button id="terminal-close" class="text-sc-text-muted transition-colors hover:text-sc-text">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="2" y1="2" x2="12" y2="12" /><line x1="12" y1="2" x2="2" y2="12" />
-          </svg>
-        </button>
-      </div>
 
-      <!-- Output area -->
-      <div id="terminal-output" class="h-64 overflow-x-auto overflow-y-auto p-4 font-mono text-xs leading-relaxed sm:text-sm">
-        <div class="text-sc-text-muted">Welcome to SudoConnor terminal. Type <span class="text-sc-accent-green">help</span> for available commands.</div>
-      </div>
+        <!-- Output area -->
+        <div id="terminal-output" class="min-h-0 flex-1 overflow-y-auto p-4 font-mono text-xs leading-relaxed sm:h-64 sm:flex-none sm:text-sm">
+          <div class="text-sc-text-muted">Welcome to SudoConnor terminal. Type <span class="text-sc-accent-green">help</span> for available commands.</div>
+        </div>
 
-      <!-- Input line -->
-      <div class="flex items-center border-t border-sc-blue/10 px-4 py-2 font-mono text-sm">
-        <span class="text-sc-accent-green">connor@sudoconnor</span><span class="text-sc-text-muted">:</span><span class="text-sc-blue">~</span><span class="text-sc-text-muted">$&nbsp;</span>
-        <input
-          id="terminal-input"
-          type="text"
-          class="flex-1 border-none bg-transparent text-sc-text outline-none"
-          autocomplete="off"
-          spellcheck="false"
-        />
+        <!-- Input line -->
+        <div class="flex items-center border-t border-sc-blue/10 px-4 py-3 font-mono text-sm sm:py-2">
+          <span class="shrink-0 text-sc-accent-green">$</span><span class="shrink-0 text-sc-text-muted">&nbsp;</span>
+          <input
+            id="terminal-input"
+            type="text"
+            class="min-w-0 flex-1 border-none bg-transparent text-sc-text outline-none"
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -61,7 +65,7 @@
 
   function appendLine(text: string, className = '') {
     const div = document.createElement('div');
-    if (className) div.className = className;
+    div.className = 'whitespace-pre-wrap break-words' + (className ? ' ' + className : '');
     div.innerHTML = text;
     output.appendChild(div);
     output.scrollTop = output.scrollHeight;
@@ -69,7 +73,7 @@
 
   function appendPrompt(cmd: string) {
     appendLine(
-      `<span class="text-sc-accent-green">connor@sudoconnor</span>:<span class="text-sc-blue">~</span>$ ${escapeHtml(cmd)}`
+      `<span class="text-sc-accent-green">$</span> ${escapeHtml(cmd)}`
     );
   }
 
@@ -80,64 +84,58 @@
   const commands: Record<string, (args: string[]) => string> = {
     help: () =>
       `<span class="text-sc-blue">Available commands:</span>
-  <span class="text-sc-accent-green">whoami</span>      - Who is Connor?
-  <span class="text-sc-accent-green">about</span>       - Quick bio
-  <span class="text-sc-accent-green">skills</span>      - Technical skills
-  <span class="text-sc-accent-green">projects</span>    - Notable projects
-  <span class="text-sc-accent-green">contact</span>     - Get in touch
-  <span class="text-sc-accent-green">blog</span>        - Latest posts
-  <span class="text-sc-accent-green">neofetch</span>    - System info
-  <span class="text-sc-accent-green">ls</span>          - List pages
-  <span class="text-sc-accent-green">echo</span>        - Echo text
-  <span class="text-sc-accent-green">history</span>     - Command history
-  <span class="text-sc-accent-green">clear</span>       - Clear terminal
-  <span class="text-sc-accent-green">exit</span>        - Close terminal`,
+  <span class="text-sc-accent-green">whoami</span>      Who is Connor?
+  <span class="text-sc-accent-green">about</span>       Quick bio
+  <span class="text-sc-accent-green">skills</span>      Technical skills
+  <span class="text-sc-accent-green">projects</span>    Notable projects
+  <span class="text-sc-accent-green">contact</span>     Get in touch
+  <span class="text-sc-accent-green">blog</span>        Latest posts
+  <span class="text-sc-accent-green">neofetch</span>    System info
+  <span class="text-sc-accent-green">cat</span>         Read a file
+  <span class="text-sc-accent-green">ls</span>          List pages
+  <span class="text-sc-accent-green">clear</span>       Clear terminal
+  <span class="text-sc-accent-green">exit</span>        Close terminal`,
 
     whoami: () =>
-      'Connor Meehan // Staff DevSecOps Engineer @ Raft | TS/SCI | CKA',
+      'Connor Meehan // Staff DevSecOps Engineer @ Raft',
 
     about: () =>
-      `12+ years building infrastructure for defense and enterprise systems.
+      `12+ years building infrastructure across commercial and defense.
 Leading DevSecOps for AI platforms serving DoD customers I probably can't talk about.
-Air-gapped, edge, and cloud. Wherever the mission needs it.
-<span class="text-sc-text-muted">→ Visit <a href="/about" class="text-sc-blue underline">/about</a> for the full story.</span>`,
+<span class="text-sc-text-muted">→ <a href="/about" class="text-sc-blue underline">/about</a></span>`,
 
     skills: () =>
-      `<span class="text-sc-blue">Containers:</span>     Kubernetes (CKA), Docker, Helm, Kustomize, Harbor
-<span class="text-sc-blue">Cloud:</span>          AWS, GCP, Azure, OpenStack, Bare Metal
-<span class="text-sc-blue">IaC:</span>            Terraform, Ansible, Salt, Vault
-<span class="text-sc-blue">CI/CD:</span>          GitHub Actions, GitLab CI, Jenkins, ArgoCD, Flux
-<span class="text-sc-blue">Security:</span>       DevSecOps, Keycloak, RBAC, Air-Gapped Delivery
-<span class="text-sc-blue">Languages:</span>      Python, Go, Bash, HCL, TypeScript
-<span class="text-sc-blue">Observability:</span>  Prometheus, Grafana, Datadog, ELK, Loki
-<span class="text-sc-blue">AI:</span>             Multi-Agent Systems, Agentic Workflows, LLMs`,
+      `<span class="text-sc-blue">Containers:</span>  K8s, Docker, Helm, Harbor
+<span class="text-sc-blue">Cloud:</span>       AWS, GCP, Azure, Bare Metal
+<span class="text-sc-blue">IaC:</span>         Terraform, Ansible, Vault
+<span class="text-sc-blue">CI/CD:</span>       Actions, GitLab, ArgoCD, Flux
+<span class="text-sc-blue">Security:</span>    DevSecOps, Keycloak, RBAC
+<span class="text-sc-blue">Languages:</span>   Python, Go, Bash, HCL, TS
+<span class="text-sc-blue">AI:</span>          Agents, LLMs, Agentic Workflows`,
 
     projects: () =>
-      `<span class="text-sc-text-muted">Notable projects:</span>
-  <span class="text-sc-accent-green">sudoconnor.ai</span>  - This site (you're looking at it)
+      `<span class="text-sc-accent-green">sudoconnor.ai</span>  This site
   <span class="text-sc-text-muted">More coming soon...</span>`,
 
     contact: () =>
-      `<span class="text-sc-blue">GitHub:</span>    <a href="https://github.com/sudoconnor" class="text-sc-blue-light underline" target="_blank">github.com/sudoconnor</a>
-<span class="text-sc-blue">LinkedIn:</span>  <a href="https://www.linkedin.com/in/meehan-connor" class="text-sc-blue-light underline" target="_blank">linkedin.com/in/meehan-connor</a>`,
+      `<span class="text-sc-blue">GitHub:</span>    <a href="https://github.com/sudoconnor" class="text-sc-blue-light underline" target="_blank">sudoconnor</a>
+<span class="text-sc-blue">LinkedIn:</span>  <a href="https://www.linkedin.com/in/meehan-connor" class="text-sc-blue-light underline" target="_blank">meehan-connor</a>`,
 
     blog: () =>
-      `<span class="text-sc-text-muted">Latest posts:</span>
-  <a href="/blog/hello-world" class="text-sc-blue-light underline">Hello, World</a>
-<span class="text-sc-text-muted">→ Visit <a href="/blog" class="text-sc-blue underline">/blog</a> for all posts.</span>`,
+      `<a href="/blog/hello-world" class="text-sc-blue-light underline">Hello, World</a>
+<span class="text-sc-text-muted">→ <a href="/blog" class="text-sc-blue underline">/blog</a></span>`,
 
     neofetch: () =>
-      `<span class="text-sc-blue">  ____  ____</span>          <span class="text-sc-text">connor</span>@<span class="text-sc-blue">sudoconnor.ai</span>
-<span class="text-sc-blue"> / ___||  _ \\</span>         ─────────────────────────
-<span class="text-sc-blue"> \\___ \\| |_) |</span>        <span class="text-sc-blue">Role:</span> Staff DevSecOps @ Raft
-<span class="text-sc-blue">  ___) |  __/</span>         <span class="text-sc-blue">XP:</span> 12+ years
-<span class="text-sc-blue"> |____/|_|</span>            <span class="text-sc-blue">Clearance:</span> TS/SCI
-                      <span class="text-sc-blue">Certs:</span> CKA, Security+
-                      <span class="text-sc-blue">Location:</span> Tampa, FL
-                      <span class="text-sc-blue">Languages:</span> Python, Go, Bash, HCL
-                      <span class="text-sc-blue">Infra:</span> AWS / GCP / Azure / Bare Metal
-                      <span class="text-sc-blue">Nodes:</span> 500+ across 5 regions
-                      <span class="text-sc-blue">Status:</span> <span class="text-sc-accent-green">Shipping what matters</span>`,
+      `<span class="text-sc-blue">connor</span>@<span class="text-sc-blue">sudoconnor.ai</span>
+──────────────────────
+<span class="text-sc-blue">Role:</span>      Staff DevSecOps @ Raft
+<span class="text-sc-blue">XP:</span>        12+ years
+<span class="text-sc-blue">Clearance:</span> TS/SCI
+<span class="text-sc-blue">Certs:</span>     CKA, Security+
+<span class="text-sc-blue">Location:</span>  Tampa, FL
+<span class="text-sc-blue">Languages:</span> Python, Go, Bash, HCL
+<span class="text-sc-blue">Nodes:</span>     500+ across 5 regions
+<span class="text-sc-blue">Status:</span>    <span class="text-sc-accent-green">Shipping</span>`,
 
     ls: () =>
       `<span class="text-sc-blue">drwxr-xr-x</span>  home/
@@ -166,22 +164,21 @@ Air-gapped, edge, and cloud. Wherever the mission needs it.
       if (full.includes('make')) {
         return `<span class="text-sc-accent-green">[sudo] Building something awesome...</span>\nDone. ✓`;
       }
-      return `<span class="text-sc-accent-yellow">Nice try.</span> Permission denied... just kidding. You already have root.`;
+      return `<span class="text-sc-accent-yellow">Nice try.</span> You already have root.`;
     },
 
     cat: (args) => {
       if (args[0] === 'resume.txt') {
-        return `<span class="text-sc-blue">Connor Meehan</span> // Staff DevSecOps Engineer
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-12+ years | TS/SCI | CKA | Security+
+        return `<span class="text-sc-blue">Connor Meehan</span>
+Staff DevSecOps Engineer
+TS/SCI | CKA | Security+
 
-<span class="text-sc-blue">Raft</span>         Staff DevSecOps    2024–Present
-<span class="text-sc-blue">Raft</span>         Sr. DevSecOps      2023–2024
-<span class="text-sc-blue">IBM/BoxBoat</span>  Sr. DevOps / SA    2022–2023
-<span class="text-sc-blue">Hivelocity</span>   Sr. DevOps         2019–2022
-<span class="text-sc-blue">Hivelocity</span>   Jr. DevOps         2013–2019
-
-<span class="text-sc-text-muted">→ Visit <a href="/about" class="text-sc-blue underline">/about</a> for more.</span>`;
+<span class="text-sc-blue">Raft</span>       Staff DevSecOps  2024–Now
+<span class="text-sc-blue">Raft</span>       Sr. DevSecOps    2023–2024
+<span class="text-sc-blue">IBM</span>        Sr. DevOps / SA  2022–2023
+<span class="text-sc-blue">Hivelocity</span> Sr. DevOps       2019–2022
+<span class="text-sc-blue">Hivelocity</span> Jr. DevOps       2013–2019
+<span class="text-sc-text-muted">→ <a href="/about" class="text-sc-blue underline">/about</a></span>`;
       }
       return `cat: ${escapeHtml(args[0] || '')}: No such file or directory`;
     },
@@ -204,7 +201,7 @@ Air-gapped, edge, and cloud. Wherever the mission needs it.
 
     date: () => new Date().toString(),
 
-    uname: () => 'SudoConnor OS 1.0.0 x86_64 GNU/Linux',
+    uname: () => 'SudoConnor OS 1.0.0 x86_64',
   };
 
   function processCommand(raw: string) {
@@ -221,7 +218,7 @@ Air-gapped, edge, and cloud. Wherever the mission needs it.
     const args = parts.slice(1);
 
     const handler = commands[cmd];
-    const result = handler ? handler(args) : `<span class="text-red-400">Command not found: ${escapeHtml(cmd)}</span>. Type <span class="text-sc-accent-green">help</span> for available commands.`;
+    const result = handler ? handler(args) : `<span class="text-red-400">Command not found: ${escapeHtml(cmd)}</span>. Type <span class="text-sc-accent-green">help</span> for commands.`;
 
     if (result) appendLine(result);
   }
