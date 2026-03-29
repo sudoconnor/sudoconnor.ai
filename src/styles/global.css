@@ -53,6 +53,22 @@
   text-shadow: 0 0 10px var(--color-sc-blue-glow), 0 0 20px var(--color-sc-blue-glow);
 }
 
+/* Terminal mobile: fill screen, desktop: bottom panel with fixed height */
+@media (max-width: 639px) {
+  #terminal-container {
+    position: fixed;
+    inset: 0;
+    border-radius: 0;
+    border: none;
+  }
+}
+@media (min-width: 640px) {
+  #terminal-output {
+    height: 16rem;
+    flex: none;
+  }
+}
+
 /* Blog prose overrides */
 .prose {
   --tw-prose-body: var(--color-sc-text);
