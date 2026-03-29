@@ -269,18 +269,34 @@ TS/SCI | CKA | Security+
     if (result) appendLine(result);
   }
 
-  // Form submit handles Enter on all platforms including iOS keyboard
-  const form = document.getElementById('terminal-form') as HTMLFormElement;
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    processCommand(input.value);
+  // Handle command execution with guard against double-fire
+  let lastExecTime = 0;
+  function executeInput() {
+    const now = Date.now();
+    if (now - lastExecTime < 50) return; // debounce
+    lastExecTime = now;
+    const val = input.value;
+    if (!val.trim()) return;
     input.value = '';
+    processCommand(val);
     input.focus();
-  });
+  }
 
-  // Arrow keys for history, Escape to close
+  // Form submit handles Enter on iOS keyboards
+  const form = document.getElementById('terminal-form') as HTMLFormElement;
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      executeInput();
+    });
+  }
+
+  // Keydown Enter as fallback + arrow keys for history
   input.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowUp') {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      executeInput();
+    } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       if (historyIndex > 0) {
         historyIndex--;
