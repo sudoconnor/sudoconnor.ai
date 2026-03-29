@@ -26,8 +26,8 @@
       <div class="whitespace-pre-wrap break-words text-sc-text-muted">Welcome to SudoConnor terminal. Type <span class="text-sc-accent-green">help</span> for available commands.</div>
     </div>
 
-    <!-- Input line -->
-    <div id="terminal-input-bar" class="flex shrink-0 items-center border-t border-sc-blue/10 bg-sc-bg-card px-4 py-3 font-mono text-sm sm:rounded-b-lg">
+    <!-- Input line - form wrapper ensures Enter works on mobile keyboards -->
+    <form id="terminal-form" class="flex shrink-0 items-center border-t border-sc-blue/10 bg-sc-bg-card px-4 py-3 font-mono text-sm sm:rounded-b-lg" autocomplete="off">
       <span class="shrink-0 text-sc-accent-green">$</span><span class="shrink-0 text-sc-text-muted">&nbsp;</span>
       <input
         id="terminal-input"
@@ -40,7 +40,7 @@
         enterkeyhint="go"
         placeholder="type a command..."
       />
-    </div>
+    </form>
   </div>
 </div>
 
@@ -269,12 +269,18 @@ TS/SCI | CKA | Security+
     if (result) appendLine(result);
   }
 
-  // Input handling
+  // Form submit handles Enter on all platforms including iOS keyboard
+  const form = document.getElementById('terminal-form') as HTMLFormElement;
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    processCommand(input.value);
+    input.value = '';
+    input.focus();
+  });
+
+  // Arrow keys for history, Escape to close
   input.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      processCommand(input.value);
-      input.value = '';
-    } else if (e.key === 'ArrowUp') {
+    if (e.key === 'ArrowUp') {
       e.preventDefault();
       if (historyIndex > 0) {
         historyIndex--;
