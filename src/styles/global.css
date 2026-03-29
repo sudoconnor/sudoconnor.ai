@@ -53,18 +53,7 @@
   text-shadow: 0 0 10px var(--color-sc-blue-glow), 0 0 20px var(--color-sc-blue-glow);
 }
 
-/* Terminal: mobile fills screen via JS visualViewport, desktop is a bottom panel */
-@media (max-width: 639px) {
-  #terminal-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 100%;
-    border-radius: 0;
-    border: none;
-  }
-}
+/* Terminal: desktop output has fixed height */
 @media (min-width: 640px) {
   #terminal-output {
     height: 16rem;

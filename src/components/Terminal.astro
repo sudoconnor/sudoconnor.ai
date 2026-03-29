@@ -1,43 +1,44 @@
 ---
 ---
 
+<!-- Full-screen opaque backdrop - covers everything -->
 <div
   id="terminal-panel"
-  class="fixed inset-x-0 bottom-0 z-50 hidden"
+  class="fixed inset-0 z-50 hidden bg-sc-bg"
 >
-  <div id="terminal-container" class="mx-auto flex flex-col bg-sc-bg-card sm:max-w-3xl sm:mx-4 md:mx-auto sm:mb-4 sm:rounded-lg sm:border sm:border-sc-blue/20 sm:shadow-2xl sm:shadow-sc-blue-glow">
+  <!-- Terminal window - JS resizes this on mobile when keyboard opens -->
+  <div id="terminal-container" class="flex h-full flex-col sm:absolute sm:inset-x-4 sm:bottom-4 sm:top-auto sm:mx-auto sm:h-[22rem] sm:max-w-3xl sm:rounded-lg sm:border sm:border-sc-blue/20 sm:bg-sc-bg-card sm:shadow-2xl sm:shadow-sc-blue-glow">
     <!-- Title bar -->
-    <div class="flex shrink-0 items-center justify-between border-b border-sc-blue/10 px-4 py-2">
+    <div class="flex shrink-0 items-center justify-between border-b border-sc-blue/10 bg-sc-bg-card/80 px-4 py-2.5 backdrop-blur-sm sm:rounded-t-lg">
       <div class="flex items-center gap-2">
-        <span class="h-3 w-3 rounded-full bg-red-500/80"></span>
-        <span class="h-3 w-3 rounded-full bg-sc-accent-yellow/80"></span>
-        <span class="h-3 w-3 rounded-full bg-sc-accent-green/80"></span>
+        <span class="h-3 w-3 rounded-full bg-[#FF5F56]"></span>
+        <span class="h-3 w-3 rounded-full bg-[#FFBD2E]"></span>
+        <span class="h-3 w-3 rounded-full bg-[#27C93F]"></span>
         <span class="ml-2 font-mono text-xs text-sc-text-muted">sudoconnor</span>
       </div>
-      <button id="terminal-close" class="p-2 text-sc-text-muted transition-colors hover:text-sc-text" aria-label="Close terminal">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="2" y1="2" x2="12" y2="12" /><line x1="12" y1="2" x2="2" y2="12" />
-        </svg>
+      <button id="terminal-close" class="rounded px-2 py-1 font-mono text-xs text-sc-text-muted transition-colors hover:bg-sc-bg-surface hover:text-sc-text" aria-label="Close terminal">
+        exit
       </button>
     </div>
 
     <!-- Output area -->
-    <div id="terminal-output" class="min-h-0 flex-1 overflow-y-auto overscroll-contain p-4 font-mono text-xs leading-relaxed sm:text-sm">
+    <div id="terminal-output" class="min-h-0 flex-1 overflow-y-auto overscroll-contain bg-sc-bg p-4 font-mono text-xs leading-relaxed sm:bg-sc-bg-card sm:text-sm">
       <div class="whitespace-pre-wrap break-words text-sc-text-muted">Welcome to SudoConnor terminal. Type <span class="text-sc-accent-green">help</span> for available commands.</div>
     </div>
 
     <!-- Input line -->
-    <div class="flex shrink-0 items-center border-t border-sc-blue/10 px-4 py-3 font-mono text-sm">
+    <div id="terminal-input-bar" class="flex shrink-0 items-center border-t border-sc-blue/10 bg-sc-bg-card px-4 py-3 font-mono text-sm sm:rounded-b-lg">
       <span class="shrink-0 text-sc-accent-green">$</span><span class="shrink-0 text-sc-text-muted">&nbsp;</span>
       <input
         id="terminal-input"
         type="text"
-        class="min-w-0 flex-1 border-none bg-transparent text-base text-sc-text outline-none sm:text-sm"
+        class="min-w-0 flex-1 border-none bg-transparent text-base text-sc-text caret-sc-blue outline-none sm:text-sm"
         autocomplete="off"
         autocapitalize="off"
         autocorrect="off"
         spellcheck="false"
-        enterkeyhint="send"
+        enterkeyhint="go"
+        placeholder="type a command..."
       />
     </div>
   </div>
@@ -56,23 +57,21 @@
   let isOpen = false;
 
   // -- iOS keyboard handling via visualViewport --
-  // Uses top + height (not bottom) to anchor to the visual viewport,
-  // which is the only reliable approach on iOS Safari.
   function updateLayout() {
+    if (!isOpen) return;
     const isMobile = window.innerWidth < 640;
-    if (!isMobile || !isOpen) {
+    if (!isMobile) {
       container.style.height = '';
-      container.style.top = '';
+      container.style.transform = '';
       return;
     }
 
     if (window.visualViewport) {
       const vv = window.visualViewport;
+      // Size the terminal to exactly the visible viewport
       container.style.height = `${vv.height}px`;
-      container.style.top = `${vv.offsetTop}px`;
-    } else {
-      container.style.height = '100%';
-      container.style.top = '0';
+      // Translate to follow the visual viewport position
+      container.style.transform = `translateY(${vv.offsetTop}px)`;
     }
 
     requestAnimationFrame(() => {
@@ -84,16 +83,19 @@
     window.visualViewport.addEventListener('resize', updateLayout);
     window.visualViewport.addEventListener('scroll', updateLayout);
   }
+  window.addEventListener('resize', updateLayout);
 
   function openTerminal() {
     isOpen = true;
     panel.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
+    // Scroll to top to reset any visual viewport offset
+    window.scrollTo(0, 0);
     updateLayout();
     setTimeout(() => {
       input.focus();
       output.scrollTop = output.scrollHeight;
-    }, 100);
+    }, 150);
   }
 
   function closeTerminal() {
@@ -101,16 +103,13 @@
     panel.classList.add('hidden');
     document.body.style.overflow = '';
     container.style.height = '';
-    container.style.top = '';
+    container.style.transform = '';
     input.blur();
   }
 
   function toggleTerminal() {
-    if (isOpen) {
-      closeTerminal();
-    } else {
-      openTerminal();
-    }
+    if (isOpen) closeTerminal();
+    else openTerminal();
   }
 
   function appendLine(text: string) {
@@ -210,7 +209,7 @@ Leading DevSecOps for AI platforms serving DoD customers I probably can't talk a
         return '<span class="text-sc-accent-yellow">I admire your courage, but no.</span>';
       }
       if (full.includes('make')) {
-        return `<span class="text-sc-accent-green">[sudo] Building something awesome...</span>\nDone. ✓`;
+        return `<span class="text-sc-accent-green">[sudo] Building something awesome...</span>\nDone.`;
       }
       return `<span class="text-sc-accent-yellow">Nice try.</span> You already have root.`;
     },
@@ -258,7 +257,6 @@ TS/SCI | CKA | Security+
 
     history.push(trimmed);
     historyIndex = history.length;
-
     appendPrompt(trimmed);
 
     const parts = trimmed.split(/\s+/);
