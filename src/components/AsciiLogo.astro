@@ -31,7 +31,7 @@ import { SITE } from '@/data/site';
       </div>
 
       <!-- Output section (appears after typing) -->
-      <div id="terminal-output" class="mt-4 space-y-1 opacity-0">
+      <div id="hero-output" class="mt-4 space-y-1 opacity-0">
         <p class="font-mono text-sm text-sc-text-muted sm:text-base">
           <span class="text-sc-accent-green">→</span> {SITE.tagline}
         </p>
@@ -50,7 +50,7 @@ import { SITE } from '@/data/site';
   const logoEl = document.getElementById('ascii-logo');
   const mobileTyped = document.getElementById('mobile-typed');
   const mobileCursor = document.getElementById('mobile-cursor');
-  const outputEl = document.getElementById('terminal-output');
+  const outputEl = document.getElementById('hero-output');
 
   function showOutput() {
     outputEl?.classList.remove('opacity-0');
