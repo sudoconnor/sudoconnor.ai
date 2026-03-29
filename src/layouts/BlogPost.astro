@@ -18,7 +18,7 @@ const formattedDate = new Date(frontmatter.pubDate).toLocaleDateString('en-US', 
 });
 ---
 
-<BaseLayout title={`${frontmatter.title} | SudoConnor`} description={frontmatter.description}>
+<BaseLayout title={`${frontmatter.title} | SudoConnor`} description={frontmatter.description} type="article" publishedDate={frontmatter.pubDate}>
   <article class="mx-auto max-w-3xl px-6 py-12">
     <header class="mb-10">
       <a href="/blog" class="mb-4 inline-flex items-center gap-1 text-sm text-sc-text-muted transition-colors hover:text-sc-blue">
