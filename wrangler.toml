@@ -1,9 +1,5 @@
 name = "sudoconnor"
 compatibility_date = "2024-12-01"
 
-[site]
-bucket = "./dist"
-
-[routes]
-pattern = "sudoconnor.ai/*"
-custom_domain = true
+[assets]
+directory = "./dist"
